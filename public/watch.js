@@ -13,6 +13,7 @@ const config = {
 };
 
 const socket = io.connect(window.location.origin);
+
 const video = document.querySelector("video");
 
 
@@ -43,15 +44,28 @@ socket.on("candidate", (id, candidate) => {
 });
 
 socket.on("connect", () => {
-  socket.emit("watcher");
+  console.log("connect: " + socket.id);
+  socket.emit("watcher",socket.id);
 });
 
-socket.on("broadcaster", () => {
-  socket.emit("watcher");
+socket.on("broadcaster-list-update", () => {
+  console.log("broadcaster")
+  socket.emit("watcher",socket.id);
+});
+
+socket.on("broadcaster-list", (broadcasters) => {
+  console.log("broadcaster-list: " + broadcasters[0]);
+  document.querySelectorAll('.broadcaster').forEach(broadcaster => {
+    broadcaster.addEventListener('click', event => {
+      //handle click
+      socket.emit("connect-to", broadcasters[0].socketID);
+    })
+    broadcaster.innerHTML = '<p>' + broadcasters[0].pcid + "</p>";
+  })
 });
 
 window.onunload = window.onbeforeunload = () => {
-  socket.close();
+  socket.close(socket.id);
   peerConnection.close();
 };
 
@@ -62,8 +76,5 @@ window.onunload = window.onbeforeunload = () => {
 video.addEventListener('mousemove', e => {
     var posX = e.offsetX;
     var posY = e.offsetY;
-
-
-    
-    socket.emit("mouse-move", {"posX":posX, "posY": posY})
+    socket.emit("mouse-move", {"posX":posX, "posY": posY, "SocketID": socket.id})
 });
