@@ -57,6 +57,11 @@ socket.on("broadcaster-list", (broadcasters) => {
   console.log("broadcaster-list: " + broadcasters[0]);
   document.querySelectorAll('.broadcaster').forEach(broadcaster => {
     broadcaster.addEventListener('click', event => {
+      video.addEventListener('mousemove', e => {
+        var posX = e.offsetX;
+        var posY = e.offsetY;
+        socket.emit("mouse-move", {"posX":posX, "posY": posY, "SocketID": broadcasters[0].socketID})
+    });
       //handle click
       socket.emit("connect-to", broadcasters[0].socketID);
     })
@@ -73,8 +78,3 @@ window.onunload = window.onbeforeunload = () => {
 
 
 
-video.addEventListener('mousemove', e => {
-    var posX = e.offsetX;
-    var posY = e.offsetY;
-    socket.emit("mouse-move", {"posX":posX, "posY": posY, "SocketID": socket.id})
-});
