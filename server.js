@@ -54,8 +54,8 @@ io.sockets.on("connection", socket => {
     socket.to(mouse.SocketID).emit("mouse-move", mouse);
   });
 
-  socket.on("mouse-click", (mouse) => {
-    socket.to(mouse.SocketID).emit("mouse-click", mouse);
+  socket.on("mouse-click", (id) => {
+    socket.to(id).emit("mouse-click");
   });
 
 

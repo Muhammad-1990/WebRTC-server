@@ -64,7 +64,7 @@ socket.on("broadcaster-list", (broadcasters) => {
     });
 
     video.addEventListener('click', e => {
-      socket.emit("mouse-click")
+      socket.emit("mouse-click",broadcasters[0].socketID)
   });
       //handle click
       socket.emit("connect-to", broadcasters[0].socketID);
