@@ -62,6 +62,12 @@ socket.on("broadcaster-list", (broadcasters) => {
         var posY = e.offsetY;
         socket.emit("mouse-move", {"posX":posX, "posY": posY, "SocketID": broadcasters[0].socketID})
     });
+
+    video.addEventListener('click', e => {
+      var posX = e.offsetX;
+      var posY = e.offsetY;
+      socket.emit("mouse-click")
+  });
       //handle click
       socket.emit("connect-to", broadcasters[0].socketID);
     })
