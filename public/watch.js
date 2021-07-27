@@ -1,9 +1,9 @@
 let peerConnection;
 const config = {
   iceServers: [
-      { 
-        "urls": "stun:stun.l.google.com:19302",
-      }
+    {
+      "urls": "stun:stun.l.google.com:19302",
+    }
   ]
 };
 
@@ -40,32 +40,32 @@ socket.on("candidate", (id, candidate) => {
 
 socket.on("connect", () => {
   console.log("connect: " + socket.id);
-  socket.emit("watcher",socket.id);
+  socket.emit("watcher", socket.id);
 });
 
 socket.on("broadcaster-list-update", () => {
   console.log("broadcaster")
-  socket.emit("watcher",socket.id);
+  socket.emit("watcher", socket.id);
 });
 
 socket.on("broadcaster-list", (broadcasters) => {
-  console.log("broadcaster-list: " + broadcasters[0]);
   document.querySelectorAll('.broadcaster').forEach(broadcaster => {
     broadcaster.addEventListener('click', event => {
       video.addEventListener('mousemove', e => {
         var posX = e.offsetX;
         var posY = e.offsetY;
-        socket.emit("mouse-move", {"posX":posX, "posY": posY, "SocketID": broadcasters[0].socketID})
+        socket.emit("mouse-move", { "posX": posX, "posY": posY, "SocketID": broadcasters[0].socketID })
+      });
+
+      video.addEventListener('click', e => {
+        socket.emit("mouse-click", broadcasters[0].socketID)
+      });
+
+      socket.emit("connect-to", broadcasters[0].socketID);
     });
 
-    video.addEventListener('click', e => {
-      socket.emit("mouse-click",broadcasters[0].socketID)
-  });
-      //handle click
-      socket.emit("connect-to", broadcasters[0].socketID);
-    })
     broadcaster.innerHTML = '<p>' + broadcasters[0].pcid + "</p>";
-  })
+  });
 });
 
 window.onunload = window.onbeforeunload = () => {
