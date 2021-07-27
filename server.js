@@ -58,6 +58,5 @@ io.sockets.on("connection", socket => {
     socket.to(id).emit("mouse-click");
   });
 
-
 });
 server.listen(port, () => console.log(`Server is running on port ${port}`));
