@@ -64,7 +64,7 @@ socket.on("broadcaster-list", (broadcasters) => {
       socket.emit("connect-to", broadcasters[0].socketID);
     });
 
-    broadcaster.innerHTML = '<p>' + broadcasters[0].pci + "</p>";
+    broadcaster.innerHTML = '<p>' + broadcasters[0].pcid + "</p>";
   });
 });
 
