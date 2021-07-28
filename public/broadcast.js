@@ -42,6 +42,12 @@ socket.on("watcher", async id => {
         });
     }
 
+    const inputSources = await desktopCapturer.getSources({
+      types: ['screen']
+    });
+
+    console.log(inputSources);
+
     const constraints = {
         audio: false,
         video: {
