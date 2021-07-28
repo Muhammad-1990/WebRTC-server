@@ -15,7 +15,6 @@ io.sockets.on("error", e => console.log(e));
 io.sockets.on("connection", socket => {
   
   socket.on("broadcaster", (broadcaster) => {
-    console.log("broadcaster")
 
     if(broadcasters.findIndex(x => x.pcid == broadcaster.pcid) == -1 ){
       broadcasters.push(broadcaster);
@@ -23,8 +22,6 @@ io.sockets.on("connection", socket => {
     }else{
       broadcasters[broadcasters.findIndex(x => x.pcid == broadcaster.pcid)].socketID = socket.id;
     }
-
-    console.log(broadcasters)
     
     socket.broadcast.emit("broadcaster-list-update",broadcasters);
   });
